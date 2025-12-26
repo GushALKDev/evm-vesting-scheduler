@@ -16,15 +16,15 @@ contract VestingScheduler {
      * @dev Struct is packed to minimize storage slots (3 slots total)
      */
     struct VestingSchedule {
-        // Slot 0: Total tokens allocated to this schedule
-        uint256 totalAmount;
-        // Slot 1: Tokens already claimed by beneficiary
-        uint256 amountClaimed;
-        // Slot 2 (Packed): 64+64+64+8 = 200 bits, fits in one slot
+        // Slot 1 (Packed): 8+64+64+64 = 200 bits, fits in one slot
+        bool initialized;           // 1 byte
         uint64 startTime;           // 8 bytes
         uint64 cliffDuration;       // 8 bytes
         uint64 vestingDuration;     // 8 bytes
-        bool initialized;           // 1 byte
+        // Slot 2: Total tokens allocated to this schedule
+        uint256 totalAmount;
+        // Slot 3: Tokens already claimed by beneficiary
+        uint256 amountClaimed;
     }
 
     // The ERC20 token being vested
